@@ -2,7 +2,7 @@
 // Developer: Ali Abu Taleb | Reviewed: 2025-10-17
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +21,7 @@ class SellerController extends Controller
 
     public function successfullOrderList(Request $request)
     {
-          try {
+        try {
             $sellerId = $request->user()->id;
 
             $orders = $this->service->getSellerSuccessfullOrder($sellerId);
@@ -37,11 +37,11 @@ class SellerController extends Controller
                 'data' => null
             ], 422);
         }
-    } 
-    
+    }
+
     public function unSuccessfullOrderList(Request $request)
     {
-          try {
+        try {
             $sellerId = $request->user()->id;
 
             $orders = $this->service->getSellerUnSuccessfullOrder($sellerId);
@@ -57,6 +57,29 @@ class SellerController extends Controller
                 'data' => null
             ], 422);
         }
-    } 
-    
+    }
+
+    public function sellerBalance(Request $request): JsonResponse
+    {
+        try {
+            $sellerId = $request->user()->id;
+            $seller = $this->service->sellerCurrentBalance($sellerId);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'name' => $seller->name,
+                    'balance' => $seller->balance,
+                ],
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch balance: ' . $e->getMessage(),
+                'data' => null,
+            ], 422);
+        }
+    }
+
+
 }

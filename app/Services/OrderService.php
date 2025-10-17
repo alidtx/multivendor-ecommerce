@@ -102,6 +102,18 @@ class OrderService
         })->with('items')->get();
     }
 
+    public function sellerCurrentBalance(int $sellerId)
+    {
+        $seller = \App\Models\User::where('role', 'seller')
+            ->where('id', $sellerId)
+            ->first(['balance', 'name']);
+
+        if (!$seller) {
+            throw new \Exception("Seller not found (ID: {$sellerId})");
+        }
+
+        return $seller; 
+    }
 
 
 }

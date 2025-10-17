@@ -22,7 +22,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:seller')->group(function () {
         Route::get('/seller/orders/successful', [SellerController::class, 'successfullOrderList']);
-        Route::get('/seller/orders/unsuccessful', [SellerController::class, 'unSuccessfullOrderList']);
+        Route::get('/seller/orders/unsuccessful', [SellerController::class, 'unSuccessfullOrderList']); 
+        Route::get('/seller/orders/balance', [SellerController::class, 'sellerBalance']); 
     });
 
 });
