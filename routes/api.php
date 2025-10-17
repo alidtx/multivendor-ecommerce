@@ -1,8 +1,8 @@
-<?php 
-
-
-
+<?php
+// Developer: Ali Abu Taleb | Reviewed: 2025-10-17
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\SellerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,19 +11,20 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    
+
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin', [AuthController::class, 'admin']);
+    });
+
+    Route::middleware('role:buyer')->group(function () {
+        Route::post('/orders', [OrderController::class, 'store']);
+    });
+
+    Route::middleware('role:seller')->group(function () {
+        Route::get('/seller/orders', [SellerController::class, 'index']);
+    });
+
 });
 
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-    Route::get('/admin', [AuthController::class, 'admin']);
-});
-
-Route::middleware(['auth:sanctum', 'role:seller'])->group(function () {
-    Route::get('/seller', [AuthController::class, 'seller']);
-});
-
-Route::middleware(['auth:sanctum', 'role:buyer'])->group(function () {
-    Route::get('/buyer', [AuthController::class, 'buyer']);
-});
 
 
