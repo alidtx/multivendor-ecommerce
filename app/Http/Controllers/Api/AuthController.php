@@ -1,5 +1,5 @@
 <?php
-
+// Developer: Ali Abu Taleb | Reviewed: 2025-10-17
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -60,15 +60,6 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
-    }
-
-
-    public function seller () {
-        return response()->json(['message' => 'seller']);
-    }
-
-       public function buyer () {
-        return response()->json(['message' => 'buyer']);
     }
 
 

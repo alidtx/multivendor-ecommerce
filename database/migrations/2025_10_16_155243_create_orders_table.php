@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('order_number')->unique();
             $table->decimal('total_amount', 14, 2)->default(0.00);
             $table->enum('status', ['pending', 'paid', 'cancelled', 'shipped'])->default('pending');
+            $table->boolean('invoiced')->default(false)->comment('Indicates if invoice has been generated');
             $table->timestamps();
 
             $table->index(['buyer_id', 'status']);

@@ -16,6 +16,7 @@ class OrderFactory extends Factory
             'order_number' => 'ORD-' . strtoupper($this->faker->unique()->bothify('####??')),
             'total_amount' => 0, 
             'status' => $this->faker->randomElement(['pending', 'paid', 'cancelled', 'shipped']),
+            'invoiced' => $this->faker->boolean(30),
         ];
     }
 }
