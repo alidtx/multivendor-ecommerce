@@ -115,5 +115,18 @@ class OrderService
         return $seller; 
     }
 
+    public function currentBuyerOrderList(int $buyerId)
+    {
+    $orders = \App\Models\Order::with(['items.product', 'invoice'])
+    ->where('buyer_id', $buyerId)
+    ->orderByDesc('created_at')
+    ->get();
+
+    if (!$orders) {
+    throw new \Exception("No orders found for buyer ID: {$buyerId}");
+    }
+
+    return $orders;
+    }
 
 }

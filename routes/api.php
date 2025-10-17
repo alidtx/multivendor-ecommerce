@@ -17,7 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::middleware('role:buyer')->group(function () {
-        Route::post('/orders', [OrderController::class, 'store']);
+        Route::post('buyer/orders', [OrderController::class, 'store']);
+        Route::get('buyer/orders/list', [OrderController::class, 'buyerOrders']);
     });
 
     Route::middleware('role:seller')->group(function () {
