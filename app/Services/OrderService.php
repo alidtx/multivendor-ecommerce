@@ -129,4 +129,22 @@ class OrderService
     return $orders;
     }
 
+
+    public function currentBuyerInvoices(int $buyerId)
+{
+    $invoices = \App\Models\Invoice::with(['order.items.product'])
+        ->whereHas('order', function ($query) use ($buyerId) {
+            $query->where('buyer_id', $buyerId);
+        })
+        ->orderByDesc('generated_at') 
+        ->get();
+
+    if (!$invoices) {
+        throw new \Exception("No invoices found for buyer ID: {$buyerId}");
+    }
+
+    return $invoices;
+}
+
+
 }

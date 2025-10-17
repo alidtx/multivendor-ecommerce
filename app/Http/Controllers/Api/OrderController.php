@@ -69,5 +69,24 @@ class OrderController extends Controller
         }
     }
 
-    
+    public function buyerInvoices(Request $request): JsonResponse
+{
+    try {
+        $buyerId = $request->user()->id;
+        $invoices = $this->service->currentBuyerInvoices($buyerId);
+
+        return response()->json([
+            'success' => true,
+            'data' => $invoices,
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch invoices: ' . $e->getMessage(),
+            'data' => null,
+        ], 422);
+    }
+}
+
+
 }
