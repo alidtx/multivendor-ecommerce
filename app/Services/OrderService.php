@@ -85,4 +85,23 @@ class OrderService
             return $order;
         });
     }
+
+    public function getSellerSuccessfullOrder(int $sellerId)
+    {
+        return \App\Models\Order::whereHas('items', function ($query) use ($sellerId) {
+            $query->where('seller_id', $sellerId);
+            $query->where('status', 'paid');
+        })->with('items')->get();
+    }
+
+      public function getSellerUnSuccessfullOrder(int $sellerId)
+    {
+        return \App\Models\Order::whereHas('items', function ($query) use ($sellerId) {
+            $query->where('seller_id', $sellerId);
+            $query->whereNot('status', 'paid');
+        })->with('items')->get();
+    }
+
+
+
 }

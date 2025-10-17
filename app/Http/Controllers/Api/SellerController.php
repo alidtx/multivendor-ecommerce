@@ -19,9 +19,44 @@ class SellerController extends Controller
         $this->middleware('role:seller');
     }
 
-    public function index(Request $request)
+    public function successfullOrderList(Request $request)
     {
-        $sellerId = $request->user()->id;
-        
-    }
+          try {
+            $sellerId = $request->user()->id;
+
+            $orders = $this->service->getSellerSuccessfullOrder($sellerId);
+
+            return response()->json([
+                'success' => true,
+                'data' => $orders
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch orders: ' . $e->getMessage(),
+                'data' => null
+            ], 422);
+        }
+    } 
+    
+    public function unSuccessfullOrderList(Request $request)
+    {
+          try {
+            $sellerId = $request->user()->id;
+
+            $orders = $this->service->getSellerUnSuccessfullOrder($sellerId);
+
+            return response()->json([
+                'success' => true,
+                'data' => $orders
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch orders: ' . $e->getMessage(),
+                'data' => null
+            ], 422);
+        }
+    } 
+    
 }
