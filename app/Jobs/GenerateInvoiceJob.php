@@ -1,5 +1,5 @@
 <?php
-
+// Developer: Ali Abu Taleb | Reviewed: 2025-10-18
 namespace App\Jobs;
 
 use App\Models\Order;
@@ -16,14 +16,17 @@ class GenerateInvoiceJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Order $order;
+    public int $timeout = 60; 
+
+    protected int $orderId;
 
     /**
      * Create a new job instance.
      */
     public function __construct(Order $order)
     {
-        $this->order = $order;
+       
+        $this->orderId = $order->id;
     }
 
     /**
@@ -32,22 +35,35 @@ class GenerateInvoiceJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $this->order->update(['invoiced' => true]);
-             $payload = [
-            'order_id' => $this->order->id,
-            'order_number' => $this->order->order_number,
-            'total_amount' => $this->order->total_amount,
-            'status' => $this->order->status,
-            'created_at' => $this->order->created_at,
-             ];
+         
+            $order = Order::find($this->orderId);
 
-        Log::info('invoice Payload:',$payload );
+            if (!$order) {
+                Log::warning("Order not found for invoice generation: {$this->orderId}");
+                return;
+            }
+
+            if ($order->invoiced) {
+                Log::info("Order {$order->id} already invoiced. Skipping.");
+                return;
+            }
+
+            $order->update(['invoiced' => true]);
+
+            Log::info('Invoice generated successfully', [
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'total_amount' => $order->total_amount,
+                'status' => $order->status,
+                'invoiced' => $order->invoiced,
+            ]);
 
         } catch (\Throwable $e) {
             Log::error('Failed to generate invoice', [
-                'order_id' => $this->order->id,
+                'order_id' => $this->orderId,
                 'error' => $e->getMessage(),
             ]);
+            throw $e;
         }
     }
 }

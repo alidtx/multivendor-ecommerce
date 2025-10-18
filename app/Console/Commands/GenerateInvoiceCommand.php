@@ -1,5 +1,5 @@
 <?php
-
+// Developer: Ali Abu Taleb | Reviewed: 2025-10-18
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -8,32 +8,26 @@ use App\Models\Order;
 
 class GenerateInvoiceCommand extends Command
 {
-
-    protected $signature = 'invoice:generate {buyer_id}';
-    protected $description = 'Generate invoice(s) for orders of a specific buyer';
+    protected $signature = 'invoice:generate';
+    protected $description = 'Generate invoices for all buyers with paid and non-invoiced orders';
 
     public function handle(): void
     {
-        $buyerId = $this->argument('buyer_id');
 
-        if ($buyerId) {
-            
-            $orders = Order::where('buyer_id', $buyerId)
-            ->where('status', 'paid')
+        $orders = Order::where('status', 'paid')
+            ->where('invoiced', false)
             ->get();
 
-            if ($orders->isEmpty()) {
-                $this->error("No orders found for buyer ID {$buyerId}.");
-                return;
-            }
-
-            foreach ($orders as $order) {
-                GenerateInvoiceJob::dispatch($order);
-                $this->info("Invoice generation job dispatched for order #{$order->id}");
-            }
-
-        } else {
-            $this->error("Please provide a buyer ID to generate invoices.");
+        if ($orders->isEmpty()) {
+            $this->info('No eligible orders found for invoice generation.');
+            return;
         }
+
+        foreach ($orders as $order) {
+            GenerateInvoiceJob::dispatch($order);
+            $this->info("Invoice generation job dispatched for Order #{$order->id} (Buyer ID: {$order->buyer_id})");
+        }
+
+        $this->info('✅ All invoice generation jobs have been dispatched successfully.');
     }
 }

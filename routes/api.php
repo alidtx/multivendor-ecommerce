@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::middleware('role:admin')->group(function () {
-        Route::get('/admin', [AuthController::class, 'admin']);
+        //All the Admin Route will go here
     });
 
     Route::middleware('role:buyer')->group(function () {
