@@ -1,19 +1,21 @@
 ## How to Run the Project
  1. clone the project.
     -> git clone https://github.com/alidtx/multivendor-ecommerce.git
- 2. Generate ENV
+ 2. Install the composer:
+   -> composer Install
+ 3. Generate ENV
     -> copy .env.example .env
- 3. Key Generate
+ 4. Key Generate
     -> php artisan key:generate
- 4. create database and add database on env file.
+ 5. create database and add database on env file.
 
- 5. Run Migration command 
+ 6. Run Migration command 
     -> php artisan migrate:fresh
- 6. Run seeder command 
+ 7. Run seeder command 
    -> php artisan db:seed --class=DatabaseSeeder
- 7. To listen the queue, run.
+ 8. To listen the queue, run.
     ->php artisan  queue:listen
- 8. To generate all ordered invoice, run custom command.
+ 9. To generate all ordered invoice, run custom command.
     -> php artisan invoice:generate
 
 ## Guidlines
