@@ -16,15 +16,16 @@
  8. To generate all ordered invoice, run custom command.
     -> php artisan invoice:generate
 
-## All the queue listener and job effect you will find in the laravel log file.I did it to save time.
+## Guidlines
 
-## Find out the **postman**  collection to check endpoint that in the zipfile in the email.
+-> All the queue listener and job effect you will find in the laravel log file.I did it to save time.
 
-    
+-> Find out the **postman**  collection to check endpoint that in the zipfile in the email.
+
+-> Role in the user table through enum <br> so when you are try to login, see if it is buyer, seller or admin.
+
  ## Endpoint
-
-## Role in the user table through enum <br> so when you are try to login, see if it is buyer, seller or admin.
-
+ 
 ##For login: {{baseUrl}}/login
 ##For Register: {{baseUrl}}/register
 ##For LogOut: {{baseUrl}}/logout
