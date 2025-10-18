@@ -28,6 +28,6 @@ class GenerateInvoiceCommand extends Command
             $this->info("Invoice generation job dispatched for Order #{$order->id} (Buyer ID: {$order->buyer_id})");
         }
 
-        $this->info('✅ All invoice generation jobs have been dispatched successfully.');
+        $this->info(' All invoice generation jobs have been dispatched successfully.');
     }
 }
