@@ -11,8 +11,12 @@
     -> php artisan migrate:fresh
  6. Run seeder command 
    -> php artisan db:seed --class=DatabaseSeeder
- 7. To generate all ordered invoice, run custom command.
+ 7. To listen the queue, run.
+    ->php artisan  queue:listen
+ 8. To generate all ordered invoice, run custom command.
     -> php artisan invoice:generate
+
+## All the queue listener and job effect you will find in the laravel log file.I did it to save time.
 
 ## Find out the **postman**  collection to check endpoint that in the zipfile in the email.
 
