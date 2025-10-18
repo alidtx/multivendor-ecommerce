@@ -19,6 +19,8 @@
     
  ## Endpoint
 
+## Role in the user table through enum <br> so when you are try to login, see if it is buyer, seller or admin.
+
 ##For login: {{baseUrl}}/login
 ##For Register: {{baseUrl}}/register
 ##For LogOut: {{baseUrl}}/logout
